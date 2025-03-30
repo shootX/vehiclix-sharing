@@ -1,14 +1,35 @@
 
 import React from 'react';
-import { Bell, Search, User } from 'lucide-react';
+import { Bell, Search, User, Menu, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { useIsMobile } from '@/hooks/use-mobile';
 
-const Header = () => {
+interface HeaderProps {
+  toggleSidebar: () => void;
+  sidebarOpen: boolean;
+}
+
+const Header = ({ toggleSidebar, sidebarOpen }: HeaderProps) => {
+  const isMobile = useIsMobile();
+
   return (
     <header className="sticky top-0 z-30 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex h-16 items-center justify-between px-6">
-        <div className="flex-1">
-          <div className="relative w-full max-w-md">
+      <div className="flex h-16 items-center justify-between px-3 md:px-6">
+        {isMobile && (
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Toggle sidebar"
+            className="mr-2"
+            onClick={toggleSidebar}
+          >
+            {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
+        )}
+        
+        <div className="flex-1 max-w-md">
+          <div className="relative w-full">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Table,
   TableBody,
@@ -9,167 +10,161 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Car, Filter, Search } from "lucide-react";
+import { 
+  MoreHorizontal, 
+  FileText, 
+  ExternalLink, 
+  RefreshCw, 
+  AlertTriangle 
+} from "lucide-react";
+import { useVehicleData, searchVehicles } from '@/hooks/use-vehicle-data';
+import { useIsMobile } from '@/hooks/use-mobile';
 
-// Mock data for vehicles
-const vehicles = [
-  {
-    id: 1,
-    licensePlate: 'ABC-123',
-    vin: 'WVWZZZ1JZXW181396',
-    brand: 'BMW',
-    model: 'X5',
-    year: 2020,
-    owner: 'John Smith',
-    insuranceStatus: 'Active',
-    expiryDate: '2023-12-31',
-    claims: 2
-  },
-  {
-    id: 2,
-    licensePlate: 'XYZ-789',
-    vin: 'WAUZZZ8K9BA095071',
-    brand: 'Audi',
-    model: 'A6',
-    year: 2019,
-    owner: 'Jane Doe',
-    insuranceStatus: 'Expired',
-    expiryDate: '2023-05-15',
-    claims: 0
-  },
-  {
-    id: 3,
-    licensePlate: 'DEF-456',
-    vin: 'WVWZZZ6RZHU103851',
-    brand: 'Mercedes',
-    model: 'C-Class',
-    year: 2021,
-    owner: 'Robert Johnson',
-    insuranceStatus: 'Active',
-    expiryDate: '2024-06-30',
-    claims: 1
-  },
-  {
-    id: 4,
-    licensePlate: 'GHI-789',
-    vin: 'WVWZZZ6RZHU567851',
-    brand: 'Volkswagen',
-    model: 'Golf',
-    year: 2018,
-    owner: 'Sarah Williams',
-    insuranceStatus: 'Pending',
-    expiryDate: '2023-11-20',
-    claims: 3
-  },
-  {
-    id: 5,
-    licensePlate: 'JKL-012',
-    vin: 'WVWZZZ6RZHU789421',
-    brand: 'Toyota',
-    model: 'Corolla',
-    year: 2022,
-    owner: 'Michael Brown',
-    insuranceStatus: 'Active',
-    expiryDate: '2024-02-15',
-    claims: 0
+interface VehicleTableProps {
+  searchQuery?: string;
+}
+
+const VehicleTable = ({ searchQuery = '' }: VehicleTableProps) => {
+  const navigate = useNavigate();
+  const { vehicles, isLoading, error } = useVehicleData();
+  const isMobile = useIsMobile();
+  
+  // Filter vehicles based on search query
+  const filteredVehicles = searchVehicles(vehicles, searchQuery);
+  
+  const handleViewDetails = (id: string) => {
+    navigate(`/vehicles/${id}`);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="border rounded-md p-8">
+        <div className="flex flex-col items-center justify-center space-y-3">
+          <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
+          <p className="text-sm text-muted-foreground">Loading vehicle data...</p>
+        </div>
+      </div>
+    );
   }
-];
 
-const VehicleTable = () => {
+  if (error) {
+    return (
+      <div className="border rounded-md p-8">
+        <div className="flex flex-col items-center justify-center space-y-3">
+          <AlertTriangle className="h-8 w-8 text-destructive" />
+          <p className="text-sm text-muted-foreground">Error loading vehicle data. Please try again.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (filteredVehicles.length === 0) {
+    return (
+      <div className="border rounded-md p-8">
+        <div className="flex flex-col items-center justify-center space-y-3">
+          <p className="text-muted-foreground">No vehicles found matching your search criteria.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row justify-between gap-4">
-        <div className="flex items-center gap-2 flex-1">
-          <div className="relative w-full max-w-sm">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search by license plate, VIN..."
-              className="w-full pl-9"
-            />
-          </div>
-          <Button variant="outline" size="icon">
-            <Filter className="h-4 w-4" />
-          </Button>
-        </div>
-        
-        <div className="flex gap-2">
-          <Select defaultValue="all">
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Insurance Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
-              <SelectItem value="active">Active</SelectItem>
-              <SelectItem value="expired">Expired</SelectItem>
-              <SelectItem value="pending">Pending</SelectItem>
-            </SelectContent>
-          </Select>
-          
-          <Button className="bg-primary text-primary-foreground">
-            Export Data
-          </Button>
-        </div>
-      </div>
-
-      <div className="rounded-lg border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>License Plate</TableHead>
-              <TableHead>Brand / Model</TableHead>
-              <TableHead>Year</TableHead>
-              <TableHead>Owner</TableHead>
-              <TableHead>Insurance Status</TableHead>
-              <TableHead>Expiry Date</TableHead>
-              <TableHead>Claims</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {vehicles.map((vehicle) => (
-              <TableRow key={vehicle.id}>
-                <TableCell className="font-medium">{vehicle.licensePlate}</TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <Car className="h-4 w-4 text-muted-foreground" />
-                    <span>{vehicle.brand} {vehicle.model}</span>
+    <div className="rounded-md border">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>License Plate</TableHead>
+            <TableHead>Vehicle</TableHead>
+            {!isMobile && (
+              <>
+                <TableHead>Owner</TableHead>
+                <TableHead>Insurance</TableHead>
+              </>
+            )}
+            <TableHead>Status</TableHead>
+            <TableHead>Expiry</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {filteredVehicles.map((vehicle) => (
+            <TableRow key={vehicle.id}>
+              <TableCell className="font-medium">{vehicle.licensePlate}</TableCell>
+              <TableCell>
+                {vehicle.brand} {vehicle.model} ({vehicle.year})
+                {isMobile && (
+                  <div className="text-xs text-muted-foreground mt-1">
+                    Owner: {vehicle.owner}
                   </div>
-                </TableCell>
-                <TableCell>{vehicle.year}</TableCell>
-                <TableCell>{vehicle.owner}</TableCell>
-                <TableCell>
-                  <Badge 
-                    variant={
-                      vehicle.insuranceStatus === 'Active' 
-                        ? 'default' 
-                        : vehicle.insuranceStatus === 'Expired' 
-                          ? 'destructive' 
-                          : 'outline'
-                    }
-                  >
-                    {vehicle.insuranceStatus}
+                )}
+              </TableCell>
+              {!isMobile && (
+                <>
+                  <TableCell>{vehicle.owner}</TableCell>
+                  <TableCell>{vehicle.insuranceProvider}</TableCell>
+                </>
+              )}
+              <TableCell>
+                <Badge
+                  variant={
+                    vehicle.insuranceStatus === 'Active' ? 'default' :
+                    vehicle.insuranceStatus === 'Pending' ? 'outline' : 'destructive'
+                  }
+                >
+                  {vehicle.insuranceStatus}
+                </Badge>
+                {isMobile && (
+                  <div className="text-xs text-muted-foreground mt-1">
+                    {vehicle.insuranceProvider}
+                  </div>
+                )}
+              </TableCell>
+              <TableCell>
+                {vehicle.expiryDate}
+                {vehicle.daysUntilExpiry !== undefined && vehicle.daysUntilExpiry <= 30 && (
+                  <Badge variant="outline" className="ml-2 text-xs text-yellow-600 bg-yellow-100">
+                    {vehicle.daysUntilExpiry <= 0 
+                      ? 'Expired' 
+                      : `${vehicle.daysUntilExpiry}d`}
                   </Badge>
-                </TableCell>
-                <TableCell>{vehicle.expiryDate}</TableCell>
-                <TableCell>{vehicle.claims}</TableCell>
-                <TableCell className="text-right">
-                  <Button size="sm" variant="outline">View Details</Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+                )}
+              </TableCell>
+              <TableCell className="text-right">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                      <span className="sr-only">Open menu</span>
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuItem onClick={() => handleViewDetails(vehicle.id)}>
+                      <ExternalLink className="mr-2 h-4 w-4" /> View details
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <FileText className="mr-2 h-4 w-4" /> View documents
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                      <RefreshCw className="mr-2 h-4 w-4" /> Refresh data
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };

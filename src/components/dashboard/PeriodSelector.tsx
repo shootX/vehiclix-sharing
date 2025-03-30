@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface PeriodSelectorProps {
   defaultValue?: string;
@@ -15,16 +16,24 @@ interface PeriodSelectorProps {
     label: string;
   }[];
   className?: string;
+  onChange?: (value: string) => void;
 }
 
 const PeriodSelector = ({ 
   defaultValue = "today", 
   options, 
-  className 
+  className,
+  onChange 
 }: PeriodSelectorProps) => {
+  const isMobile = useIsMobile();
+  const defaultClassName = isMobile ? "w-full" : "w-[180px]";
+
   return (
-    <Select defaultValue={defaultValue}>
-      <SelectTrigger className={className || "w-[180px]"}>
+    <Select 
+      defaultValue={defaultValue} 
+      onValueChange={onChange}
+    >
+      <SelectTrigger className={className || defaultClassName}>
         <SelectValue placeholder="Select period" />
       </SelectTrigger>
       <SelectContent position="popper" className="w-full min-w-[180px]">
