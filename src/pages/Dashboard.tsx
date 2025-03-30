@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BarChart3, Car, Clock, Shield, Database, AlertTriangle } from 'lucide-react';
+import { BarChart3, Car, Clock, Shield, Database, AlertTriangle, RefreshCw } from 'lucide-react';
 import StatsCard from '@/components/dashboard/StatsCard';
 import { 
   Card,
