@@ -1,13 +1,17 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
+  const isMobile = useIsMobile();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar />

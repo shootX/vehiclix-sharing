@@ -27,7 +27,7 @@ const PeriodSelector = ({
       <SelectTrigger className={className || "w-[180px]"}>
         <SelectValue placeholder="Select period" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent position="popper" className="w-full min-w-[180px]">
         {options.map((option) => (
           <SelectItem key={option.value} value={option.value}>
             {option.label}

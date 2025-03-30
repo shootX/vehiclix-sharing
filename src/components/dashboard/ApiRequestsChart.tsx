@@ -17,6 +17,7 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import PeriodSelector from './PeriodSelector';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Define the data structure
 interface ApiRequestsData {
@@ -35,9 +36,11 @@ const periodOptions = [
 ];
 
 const ApiRequestsChart = ({ data }: ApiRequestsChartProps) => {
+  const isMobile = useIsMobile();
+  
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
+      <CardHeader className={`${isMobile ? 'flex flex-col space-y-2' : 'flex flex-row items-center justify-between'} pb-2`}>
         <div>
           <CardTitle>API Requests</CardTitle>
           <CardDescription>Last 7 days of API activity</CardDescription>
@@ -45,12 +48,12 @@ const ApiRequestsChart = ({ data }: ApiRequestsChartProps) => {
         <PeriodSelector 
           defaultValue="7days" 
           options={periodOptions} 
-          className="w-[120px] h-8" 
+          className={isMobile ? "w-full h-8" : "w-[120px] h-8"} 
         />
       </CardHeader>
       <CardContent className="pt-4">
-        <ResponsiveContainer width="100%" height={250}>
-          <BarChart data={data}>
+        <ResponsiveContainer width="100%" height={isMobile ? 200 : 250}>
+          <BarChart data={data} margin={isMobile ? { top: 5, right: 5, left: -20, bottom: 5 } : undefined}>
             <CartesianGrid strokeDasharray="3 3" stroke="#eaeaea" />
             <XAxis dataKey="name" />
             <YAxis />

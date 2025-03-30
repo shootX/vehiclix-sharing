@@ -6,6 +6,7 @@ import ApiRequestsChart from '@/components/dashboard/ApiRequestsChart';
 import InsuranceStatusChart from '@/components/dashboard/InsuranceStatusChart';
 import RecentActivities from '@/components/dashboard/RecentActivities';
 import { RefreshCw } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Mock data for charts
 const apiRequestsData = [
@@ -37,11 +38,14 @@ const recentActivities = [
 ];
 
 const Dashboard = () => {
+  const isMobile = useIsMobile();
+
   return (
-    <div className="space-y-6 p-6 animate-fade-in">
+    <div className="space-y-6 p-3 md:p-6 animate-fade-in">
       <DashboardHeader 
         title="Dashboard" 
         subtitle="Welcome back to your vehicle insurance platform" 
+        isMobile={isMobile}
       />
 
       <StatsGrid />

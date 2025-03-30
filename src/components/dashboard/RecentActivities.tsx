@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Define the data structure
 interface Activity {
@@ -21,6 +22,8 @@ interface RecentActivitiesProps {
 }
 
 const RecentActivities = ({ activities }: RecentActivitiesProps) => {
+  const isMobile = useIsMobile();
+  
   const getActivityIcon = (type: Activity['type']) => {
     switch (type) {
       case 'update': return <RefreshCw className="h-4 w-4" />;
@@ -48,14 +51,14 @@ const RecentActivities = ({ activities }: RecentActivitiesProps) => {
         <CardDescription>Latest system events and updates</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="space-y-3">
           {activities.map((activity, index) => (
-            <div key={index} className="flex items-start gap-4 pb-4 border-b last:border-0">
-              <div className={`mt-0.5 rounded-full p-1.5 ${getActivityColorClass(activity.type)}`}>
+            <div key={index} className={`flex items-start gap-3 pb-3 border-b last:border-0 ${isMobile ? 'flex-col sm:flex-row' : ''}`}>
+              <div className={`${isMobile ? 'mt-0' : 'mt-0.5'} rounded-full p-1.5 ${getActivityColorClass(activity.type)}`}>
                 {getActivityIcon(activity.type)}
               </div>
               <div className="flex-1">
-                <p className="text-sm">{activity.event}</p>
+                <p className={`text-sm ${isMobile ? 'font-medium' : ''}`}>{activity.event}</p>
                 <p className="text-xs text-muted-foreground">{activity.time}</p>
               </div>
             </div>

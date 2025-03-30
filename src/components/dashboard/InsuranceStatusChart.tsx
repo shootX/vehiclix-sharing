@@ -17,6 +17,7 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import PeriodSelector from './PeriodSelector';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Define the data structure
 interface InsuranceStatusData {
@@ -37,9 +38,11 @@ const periodOptions = [
 ];
 
 const InsuranceStatusChart = ({ data }: InsuranceStatusChartProps) => {
+  const isMobile = useIsMobile();
+  
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
+      <CardHeader className={`${isMobile ? 'flex flex-col space-y-2' : 'flex flex-row items-center justify-between'} pb-2`}>
         <div>
           <CardTitle>Insurance Status</CardTitle>
           <CardDescription>Vehicle insurance trends</CardDescription>
@@ -47,12 +50,12 @@ const InsuranceStatusChart = ({ data }: InsuranceStatusChartProps) => {
         <PeriodSelector 
           defaultValue="6months" 
           options={periodOptions} 
-          className="w-[120px] h-8" 
+          className={isMobile ? "w-full h-8" : "w-[120px] h-8"} 
         />
       </CardHeader>
       <CardContent className="pt-4">
-        <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={data}>
+        <ResponsiveContainer width="100%" height={isMobile ? 200 : 250}>
+          <LineChart data={data} margin={isMobile ? { top: 5, right: 5, left: -20, bottom: 5 } : undefined}>
             <CartesianGrid strokeDasharray="3 3" stroke="#eaeaea" />
             <XAxis dataKey="name" />
             <YAxis />
