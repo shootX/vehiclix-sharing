@@ -5,6 +5,7 @@ import StatsGrid from '@/components/dashboard/StatsGrid';
 import ApiRequestsChart from '@/components/dashboard/ApiRequestsChart';
 import InsuranceStatusChart from '@/components/dashboard/InsuranceStatusChart';
 import RecentActivities from '@/components/dashboard/RecentActivities';
+import { RefreshCw } from 'lucide-react';
 
 // Mock data for charts
 const apiRequestsData = [
@@ -26,13 +27,13 @@ const insuranceStatusData = [
   { name: 'Jun', Active: 5400, Expired: 310, Pending: 380 },
 ];
 
-// Mock data for recent activities
+// Mock data for recent activities with properly typed 'type' property
 const recentActivities = [
-  { time: '10:25 AM', event: 'Vehicle BMW X5 (ABC-123) insurance updated', type: 'update' },
-  { time: '09:41 AM', event: 'New API key generated for SafeDrive Insurance', type: 'api' },
-  { time: '08:15 AM', event: 'Vehicle Mercedes C-Class (DEF-456) added to database', type: 'add' },
-  { time: 'Yesterday', event: 'Vehicle Toyota Corolla (JKL-012) insurance expired', type: 'alert' },
-  { time: 'Yesterday', event: 'API integration with VehicleProtect Inc. failed', type: 'error' },
+  { time: '10:25 AM', event: 'Vehicle BMW X5 (ABC-123) insurance updated', type: 'update' as const },
+  { time: '09:41 AM', event: 'New API key generated for SafeDrive Insurance', type: 'api' as const },
+  { time: '08:15 AM', event: 'Vehicle Mercedes C-Class (DEF-456) added to database', type: 'add' as const },
+  { time: 'Yesterday', event: 'Vehicle Toyota Corolla (JKL-012) insurance expired', type: 'alert' as const },
+  { time: 'Yesterday', event: 'API integration with VehicleProtect Inc. failed', type: 'error' as const },
 ];
 
 const Dashboard = () => {
