@@ -13,6 +13,7 @@ import ApiIntegration from "./pages/ApiIntegration";
 import Analytics from "./pages/Analytics";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
+import ProviderManager from "./pages/ProviderManager";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/vehicles/:id" element={<Layout><VehicleDetail /></Layout>} />
           <Route path="/insurance" element={<Layout><Insurance /></Layout>} />
           <Route path="/api-integration" element={<Layout><ApiIntegration /></Layout>} />
+          <Route path="/providers" element={<Layout><ProviderManager /></Layout>} />
           <Route path="/analytics" element={<Layout><Analytics /></Layout>} />
           <Route path="/users" element={<Layout><Users /></Layout>} />
           <Route path="/settings" element={<Layout><Settings /></Layout>} />

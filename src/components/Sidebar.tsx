@@ -2,13 +2,14 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from "@/lib/utils";
-import { BarChart3, Car, Settings, Shield, Users, Database, Bell, LogOut, Home } from 'lucide-react';
+import { BarChart3, Car, Settings, Shield, Users, Database, Bell, LogOut, Home, Building } from 'lucide-react';
 
 const navItems = [
   { name: 'Dashboard', icon: Home, path: '/' },
   { name: 'Vehicles', icon: Car, path: '/vehicles' },
   { name: 'Insurance', icon: Shield, path: '/insurance' },
   { name: 'API Integration', icon: Database, path: '/api-integration' },
+  { name: 'Providers', icon: Building, path: '/providers' },
   { name: 'Analytics', icon: BarChart3, path: '/analytics' },
   { name: 'Users', icon: Users, path: '/users' },
   { name: 'Settings', icon: Settings, path: '/settings' },
