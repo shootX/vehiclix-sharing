@@ -1,8 +1,9 @@
-
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from "@/lib/utils";
-import { BarChart3, Car, Settings, Shield, Users, Database, Bell, LogOut, Home, Building } from 'lucide-react';
+import { BarChart3, Car, Settings, Shield, Users, Database, LogOut, Home, Building } from 'lucide-react';
+import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from '@/hooks/use-auth';
 
 const navItems = [
   { name: 'Dashboard', icon: Home, path: '/' },
@@ -17,6 +18,17 @@ const navItems = [
 
 const Sidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out.",
+    });
+  };
 
   return (
     <div className="h-screen w-64 border-r border-border bg-sidebar flex flex-col">
@@ -51,7 +63,10 @@ const Sidebar = () => {
       </nav>
       
       <div className="border-t border-border p-4">
-        <button className="flex w-full items-center gap-3 px-3 py-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-lg transition-colors">
+        <button 
+          className="flex w-full items-center gap-3 px-3 py-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-lg transition-colors"
+          onClick={handleLogout}
+        >
           <LogOut className="h-5 w-5" />
           Log out
         </button>
