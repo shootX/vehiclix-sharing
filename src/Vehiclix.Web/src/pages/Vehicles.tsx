@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Vehicle } from '../types';
 import { vehicleService } from '../services/api';
@@ -22,17 +23,6 @@ const Vehicles: React.FC = () => {
     fetchVehicles();
   }, []);
 
-  const handleDelete = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this vehicle?')) {
-      try {
-        await vehicleService.delete(id);
-        setVehicles(vehicles.filter((vehicle) => vehicle.id !== id));
-      } catch (err) {
-        setError('Failed to delete vehicle');
-      }
-    }
-  };
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -46,12 +36,6 @@ const Vehicles: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-900">Vehicles</h1>
-          <button
-            className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
-            onClick={() => {/* TODO: Implement add vehicle */}}
-          >
-            Add Vehicle
-          </button>
         </div>
 
         <div className="mt-8 flex flex-col">
@@ -160,12 +144,6 @@ const Vehicles: React.FC = () => {
                           >
                             Edit
                           </button>
-                          <button
-                            className="text-red-600 hover:text-red-900"
-                            onClick={() => handleDelete(vehicle.id)}
-                          >
-                            Delete
-                          </button>
                         </td>
                       </tr>
                     ))}
@@ -180,4 +158,4 @@ const Vehicles: React.FC = () => {
   );
 };
 
-export default Vehicles; 
+export default Vehicles;

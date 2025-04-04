@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Clock, Database, Download, RefreshCw, Shield } from "lucide-react";
+import { Clock, RefreshCw, Shield } from "lucide-react";
 
 const APIIntegration = () => {
   // Mock API providers
@@ -66,9 +66,6 @@ const APIIntegration = () => {
           <h2 className="text-xl font-semibold">API Integrations</h2>
           <p className="text-sm text-muted-foreground">Connect and manage insurance provider APIs</p>
         </div>
-        <Button>
-          <Database className="mr-2 h-4 w-4" /> Add New Provider
-        </Button>
       </div>
       
       <div className="grid gap-4 md:grid-cols-2">
@@ -97,7 +94,7 @@ const APIIntegration = () => {
                   <div>{provider.nextSync}</div>
                   
                   <div className="flex items-center gap-2 text-muted-foreground">
-                    <Download className="h-4 w-4" /> Today's Requests:
+                    <RefreshCw className="h-4 w-4" /> Today's Requests:
                   </div>
                   <div>{provider.requestsToday}</div>
                 </div>

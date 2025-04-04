@@ -19,7 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Search, UserPlus } from "lucide-react";
+import { MoreHorizontal, Search } from "lucide-react";
 
 // Mock users data
 const users = [
@@ -87,9 +87,6 @@ const Users = () => {
           <h1 className="text-2xl font-bold">User Management</h1>
           <p className="text-muted-foreground">Manage user accounts and permissions</p>
         </div>
-        <Button className="bg-primary text-primary-foreground">
-          <UserPlus className="mr-2 h-4 w-4" /> Add User
-        </Button>
       </div>
 
       <div className="flex items-center gap-2 max-w-sm">
