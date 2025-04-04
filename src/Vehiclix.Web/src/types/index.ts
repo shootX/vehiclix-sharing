@@ -1,3 +1,4 @@
+
 export interface User {
   id: string;
   email: string;
@@ -31,6 +32,7 @@ export interface Claim {
   status: string;
   amount: number;
   insuranceProvider: string;
+  photos?: string[];
 }
 
 export interface Fine {

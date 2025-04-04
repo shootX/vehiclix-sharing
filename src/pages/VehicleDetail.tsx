@@ -23,12 +23,14 @@ import {
   Shield, 
   Clock, 
   ArrowLeft, 
-  Download 
+  Download,
+  Image as ImageIcon
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { useVehicleData } from '@/hooks/use-vehicle-data';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useIsMobile } from '@/hooks/use-mobile';
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const VehicleDetail = () => {
   const { id } = useParams();
@@ -189,7 +191,7 @@ const VehicleDetail = () => {
             </CardHeader>
             <CardContent>
               {vehicle.claims && vehicle.claims.length > 0 ? (
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {vehicle.claims.map((claim, index) => (
                     <div key={index} className="border p-4 rounded-lg">
                       <div className="flex justify-between items-start">
@@ -206,6 +208,28 @@ const VehicleDetail = () => {
                       <div className="mt-3">
                         <p className="text-sm font-medium">Amount: ${claim.amount}</p>
                       </div>
+                      
+                      {claim.photos && claim.photos.length > 0 && (
+                        <div className="mt-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <ImageIcon className="h-4 w-4 text-muted-foreground" />
+                            <p className="text-sm font-medium">Claim Photos</p>
+                          </div>
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                            {claim.photos.map((photo, photoIndex) => (
+                              <div key={photoIndex} className="relative overflow-hidden rounded-md border bg-muted">
+                                <AspectRatio ratio={4/3}>
+                                  <img 
+                                    src={photo} 
+                                    alt={`Claim photo ${photoIndex + 1}`} 
+                                    className="object-cover w-full h-full hover:scale-105 transition-transform"
+                                  />
+                                </AspectRatio>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>

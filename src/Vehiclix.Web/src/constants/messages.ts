@@ -1,4 +1,5 @@
 
+
 export const messages = {
   // Form validation messages
   required: 'This field is required',
@@ -57,6 +58,8 @@ export const messages = {
   claimUpdated: 'Claim information updated',
   claimProcessed: 'Claim has been processed',
   claimRejected: 'Claim has been rejected',
+  photoUploaded: 'Claim photo uploaded successfully',
+  photoDeleted: 'Claim photo deleted successfully',
   
   // Fine-specific messages
   fineCreated: 'Fine recorded successfully',
@@ -95,3 +98,4 @@ export const messages = {
   providerActivated: 'Provider has been activated',
   providerDeactivated: 'Provider has been deactivated',
 };
+

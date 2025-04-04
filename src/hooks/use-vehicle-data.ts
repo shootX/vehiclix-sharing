@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 
 // Define vehicle data types
@@ -8,6 +7,7 @@ export interface VehicleClaim {
   description: string;
   amount: number;
   status: 'Pending' | 'In Progress' | 'Settled' | 'Rejected';
+  photos?: string[];
 }
 
 export interface VehicleDocument {
@@ -72,14 +72,21 @@ const mockVehicles: Vehicle[] = [
         type: 'Collision',
         description: 'Front bumper damage after collision with another vehicle at intersection',
         amount: 2500,
-        status: 'Settled'
+        status: 'Settled',
+        photos: [
+          'https://images.unsplash.com/photo-1540465812-f43c3933bf04?auto=format&fit=crop&w=500&q=60',
+          'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=500&q=60'
+        ]
       },
       {
         date: '2021-07-05',
         type: 'Windshield',
         description: 'Cracked windshield from road debris',
         amount: 850,
-        status: 'Settled'
+        status: 'Settled',
+        photos: [
+          'https://images.unsplash.com/photo-1551357144-139c7fdef14b?auto=format&fit=crop&w=500&q=60'
+        ]
       }
     ],
     documents: [
@@ -190,7 +197,11 @@ const mockVehicles: Vehicle[] = [
         type: 'Theft',
         description: 'Vehicle stolen from shopping mall parking lot. Recovered after 3 days with minor damage.',
         amount: 3200,
-        status: 'Settled'
+        status: 'Settled',
+        photos: [
+          'https://images.unsplash.com/photo-1540465812-f43c3933bf04?auto=format&fit=crop&w=500&q=60',
+          'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=500&q=60'
+        ]
       }
     ],
     documents: [
